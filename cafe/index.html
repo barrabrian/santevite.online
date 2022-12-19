@@ -811,11 +811,29 @@
       <p>La información disponible en este sitio es estrictamente periodística y no reemplaza el consejo médico profesional. Siempre consulte a su médico sobre cualquier asunto relacionado con su salud y sus tratamientos y medicamentos.</p>
     </footer>
 
-    <script src="https://ssl.geoplugin.net/javascript.gp?k=292af9fb00c1353d" type="text/javascript"></script>
+    <!-- <script src="https://ssl.geoplugin.net/javascript.gp?k=292af9fb00c1353d" type="text/javascript"></script> -->
 
     <script type="text/javascript">
-      document.getElementById("local1").innerHTML = geoplugin_city();
-      document.getElementById("local2").innerHTML = geoplugin_city();
+
+      var geo_city = "";
+      var geo_countryCode = "";
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // console.log(this.response);
+            geo_city = JSON.parse(this.response).cityName;
+            geo_countryCode = JSON.parse(this.response).countryCode;
+            // console.log(geo_city);
+            // console.log(geo_countryCode);
+         }
+      };
+      xhttp.open("GET", "https://api.ipinfodb.com/v3/ip-city/?format=json&key=25864308b6a77fd90f8bf04b3021a48c1f2fb302a676dd3809054bc1b07f5b42", true);
+      xhttp.send();
+
+      // document.getElementById("locationJS").innerHTML = geoplugin_city();
+      document.getElementById("local1").innerHTML = geo_city();
+      document.getElementById("local2").innerHTML = geo_city();
 
       var url_string = window.location.href;
       var url = new URL(url_string);
